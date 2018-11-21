@@ -49,6 +49,7 @@ Future<Client> resourceOwnerPasswordGrant(
     String secret,
     Iterable<String> scopes,
     bool basicAuth = true,
+    headers = const <String, String>{},
     http.Client httpClient,
     String delimiter,
     Map<String, dynamic> getParameters(
@@ -61,8 +62,6 @@ Future<Client> resourceOwnerPasswordGrant(
     "username": username,
     "password": password
   };
-
-  var headers = <String, String>{};
 
   if (identifier != null) {
     if (basicAuth) {
@@ -84,5 +83,5 @@ Future<Client> resourceOwnerPasswordGrant(
       response, authorizationEndpoint, startTime, scopes, delimiter,
       getParameters: getParameters);
   return new Client(credentials,
-      identifier: identifier, secret: secret, httpClient: httpClient);
+      identifier: identifier, secret: secret, httpClient: httpClient, basicAuth: basicAuth);
 }

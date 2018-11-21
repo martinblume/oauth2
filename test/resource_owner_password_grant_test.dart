@@ -100,6 +100,18 @@ void main() {
           scopes: ['one', 'two'], httpClient: expectClient, delimiter: ',');
     });
 
+    test('builds correct request using custom headers', () async {
+      expectClient.expectRequest((request) async {
+        expect(request.headers['x-api-key'], equals('myApiKey'));
+        return new http.Response(success, 200,
+            headers: {'content-type': 'application/json'});
+      });
+
+      await oauth2.resourceOwnerPasswordGrant(
+          authEndpoint, 'username', 'userpass',
+          headers: { 'x-api-key': 'myApiKey' }, httpClient: expectClient, delimiter: ',');
+    });
+
     test('merges with existing query parameters', () async {
       var authEndpoint = Uri.parse('https://example.com?query=value');
 
