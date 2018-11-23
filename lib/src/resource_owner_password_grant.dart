@@ -49,7 +49,7 @@ Future<Client> resourceOwnerPasswordGrant(
     String secret,
     Iterable<String> scopes,
     bool basicAuth = true,
-    headers = const <String, String>{},
+    customHeaders = const <String, String>{},
     http.Client httpClient,
     String delimiter,
     Map<String, dynamic> getParameters(
@@ -63,6 +63,8 @@ Future<Client> resourceOwnerPasswordGrant(
     "password": password
   };
 
+  var headers = <String, String>{};
+  headers.addAll(customHeaders);
   if (identifier != null) {
     if (basicAuth) {
       headers['Authorization'] = basicAuthHeader(identifier, secret);

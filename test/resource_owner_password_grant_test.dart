@@ -109,7 +109,7 @@ void main() {
 
       await oauth2.resourceOwnerPasswordGrant(
           authEndpoint, 'username', 'userpass',
-          headers: { 'x-api-key': 'myApiKey' }, httpClient: expectClient, delimiter: ',');
+          customHeaders: { 'x-api-key': 'myApiKey' }, httpClient: expectClient, delimiter: ',');
     });
 
     test('merges with existing query parameters', () async {
