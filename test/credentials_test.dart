@@ -58,7 +58,9 @@ void main() {
         throwsStateError);
   });
 
-  test("can refresh with a refresh token and a token endpoint", () async {
+  test(
+      "can refresh with a refresh token and a token endpoint and uses custom headers if provided",
+      () async {
     var credentials = new oauth2.Credentials('access token',
         refreshToken: 'refresh token',
         tokenEndpoint: tokenEndpoint,
@@ -79,6 +81,7 @@ void main() {
           request.headers,
           containsPair("Authorization",
               "Basic aWQlQzMlQUJudCVDNCVBQmZpZXI6cyVDMyVBQmNyZXQ="));
+      expect(request.headers, containsPair("x-api-key", "myApiKey"));
 
       return new Future.value(new http.Response(
           jsonEncode({
@@ -91,7 +94,10 @@ void main() {
     });
 
     credentials = await credentials.refresh(
-        identifier: 'idëntīfier', secret: 'sëcret', httpClient: httpClient);
+        identifier: 'idëntīfier',
+        secret: 'sëcret',
+        httpClient: httpClient,
+        customHeaders: {'x-api-key': 'myApiKey'});
     expect(credentials.accessToken, equals('new access token'));
     expect(credentials.refreshToken, equals('new refresh token'));
   });

@@ -85,5 +85,9 @@ Future<Client> resourceOwnerPasswordGrant(
       response, authorizationEndpoint, startTime, scopes, delimiter,
       getParameters: getParameters);
   return new Client(credentials,
-      identifier: identifier, secret: secret, httpClient: httpClient, basicAuth: basicAuth);
+      identifier: identifier,
+      secret: secret,
+      httpClient: httpClient,
+      basicAuth: basicAuth,
+      customHeaders: headers);
 }
