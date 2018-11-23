@@ -73,6 +73,9 @@ class Client extends http.BaseClient {
   /// The underlying HTTP client.
   http.Client _httpClient;
 
+  /// Custom headers for authorizing the client
+  final Map<String, String> customHeaders;
+
   /// Creates a new client from a pre-existing set of credentials.
   ///
   /// When authorizing a client for the first time, you should use
@@ -87,7 +90,8 @@ class Client extends http.BaseClient {
       {this.identifier,
       this.secret,
       bool basicAuth = true,
-      http.Client httpClient})
+      http.Client httpClient,
+      this.customHeaders = const {}})
       : _basicAuth = basicAuth,
         _httpClient = httpClient == null ? new http.Client() : httpClient {
     if (identifier == null && secret != null) {
@@ -154,7 +158,8 @@ class Client extends http.BaseClient {
         secret: secret,
         newScopes: newScopes,
         basicAuth: _basicAuth,
-        httpClient: _httpClient);
+        httpClient: _httpClient,
+        customHeaders: customHeaders);
 
     return this;
   }

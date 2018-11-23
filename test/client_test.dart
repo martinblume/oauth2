@@ -83,15 +83,22 @@ void main() {
       expect(client.read(requestUri), completion(equals('good job')));
     });
 
-    test("can manually refresh the credentials", () async {
+    test(
+        "can manually refresh the credentials and uses custom headers if provided",
+        () async {
       var credentials = new oauth2.Credentials('access token',
           refreshToken: 'refresh token', tokenEndpoint: tokenEndpoint);
       var client = new oauth2.Client(credentials,
-          identifier: 'identifier', secret: 'secret', httpClient: httpClient);
+          identifier: 'identifier',
+          secret: 'secret',
+          httpClient: httpClient,
+          customHeaders: {'x-api-key': 'myApiKey'});
 
       httpClient.expectRequest((request) {
         expect(request.method, equals('POST'));
         expect(request.url.toString(), equals(tokenEndpoint.toString()));
+        expect(request.headers, containsPair("x-api-key", "myApiKey"));
+
         return new Future.value(new http.Response(
             jsonEncode(
                 {'access_token': 'new access token', 'token_type': 'bearer'}),
